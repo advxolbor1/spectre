@@ -1,2 +1,2 @@
-# spectre-website
-A description of our guild.
+# SPΞCTRΞ Website
+Starter project.
