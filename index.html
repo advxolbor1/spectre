@@ -3,717 +3,1368 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050505">
-
   <title>SPΞCTRΞ | Arcane Odyssey Guild</title>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-soft: #0b0b0b;
+      --panel: #101010;
+      --panel-2: #151515;
+      --text: #eeeeee;
+      --muted: #7a7a7a;
+      --muted-2: #4f4f4f;
+      --border: #2d2d2d;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    section {
+      scroll-margin-top: 72px;
+    }
+
+    /* NAV */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 72px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      background: rgba(5, 5, 5, 0.94);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+    }
+
+    .logo {
+      margin-right: auto;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 6px;
+    }
+
+    .logo span {
+      color: #6d6d6d;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 2px;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .discord-button {
+      margin-left: 30px;
+      padding: 11px 18px;
+      border: 1px solid #666;
+      font-size: 10px;
+      letter-spacing: 2px;
+      transition: 0.2s;
+    }
+
+    .discord-button:hover {
+      background: white;
+      color: black;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 100vh;
+      padding: 145px 8% 90px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 8%;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 80% 40%, #252525, #101010 28%, #050505 62%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 65px 65px;
+    }
+
+    .hero-left,
+    .hero-panel {
+      position: relative;
+      z-index: 2;
+    }
+
+    .overline {
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 4px;
+    }
+
+    .hero h1 {
+      font-size: clamp(70px, 10vw, 145px);
+      line-height: .9;
+      letter-spacing: 7px;
+      white-space: nowrap;
+    }
+
+    .hero h1 span {
+      color: #6c6c6c;
+    }
+
+    .hero h2 {
+      margin-top: 38px;
+      font-size: clamp(24px, 3vw, 42px);
+      line-height: 1.25;
+      font-weight: 400;
+      letter-spacing: 3px;
+      color: #b9b9b9;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      margin-top: 35px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      min-width: 180px;
+      padding: 15px 24px;
+      text-align: center;
+      border: 1px solid #555;
+      font-size: 10px;
+      letter-spacing: 2px;
+      transition: .25s;
+    }
+
+    .button-primary {
+      background: #ededed;
+      color: black;
+      border-color: #ededed;
+    }
+
+    .button-primary:hover {
+      background: white;
+      transform: translateY(-3px);
+    }
+
+    .button-secondary {
+      color: #aaa;
+    }
+
+    .button-secondary:hover {
+      color: white;
+      border-color: white;
+      transform: translateY(-3px);
+    }
+
+    /* HERO PANEL */
+
+    .hero-panel {
+      padding: 24px;
+      border: 1px solid #333;
+      background: rgba(255,255,255,.02);
+    }
+
+    .panel-top {
+      padding-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #292929;
+      color: #666;
+      font-size: 8px;
+      letter-spacing: 2px;
+    }
+
+    .radar {
+      width: min(330px, 90%);
+      aspect-ratio: 1;
+      margin: 42px auto;
+      position: relative;
+      border: 1px solid #3a3a3a;
+      border-radius: 50%;
+      background: radial-gradient(circle, #181818, #090909 70%);
+    }
+
+    .ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid #292929;
+      border-radius: 50%;
+    }
+
+    .ring-1 { width: 75%; height: 75%; }
+    .ring-2 { width: 50%; height: 50%; }
+    .ring-3 { width: 25%; height: 25%; }
+
+    .line-x {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: #292929;
+    }
+
+    .line-y {
+      position: absolute;
+      left: 50%;
+      width: 1px;
+      height: 100%;
+      background: #292929;
+    }
+
+    .radar-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 64px;
+      height: 64px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #ddd;
+      color: black;
+      font-size: 28px;
+    }
+
+    .blip {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #aaa;
+      box-shadow: 0 0 8px #aaa;
+    }
+
+    .blip-1 { top: 23%; left: 68%; }
+    .blip-2 { top: 66%; left: 24%; }
+    .blip-3 { top: 71%; left: 74%; }
+
+    .panel-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid #292929;
+    }
+
+    .panel-stats div {
+      padding: 16px 8px 0;
+      border-right: 1px solid #292929;
+    }
+
+    .panel-stats div:last-child {
+      border-right: none;
+    }
+
+    .panel-stats small {
+      display: block;
+      color: #555;
+      font-size: 7px;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .panel-stats strong {
+      font-size: 9px;
+      font-weight: 400;
+    }
+
+    /* SHARED */
+
+    .section-label {
+      color: #505050;
+      font-size: 9px;
+      letter-spacing: 4px;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: clamp(48px, 7vw, 85px);
+      line-height: .95;
+      letter-spacing: 4px;
+    }
+
+    /* ABOUT */
+
+    .about {
+      padding: 120px 8%;
+      background: linear-gradient(120deg, #080808, #101010);
+    }
+
+    .about-grid {
+      margin-top: 45px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10%;
+    }
+
+    .about-heading h2 {
+      font-size: clamp(42px, 5vw, 70px);
+      line-height: 1.08;
+      letter-spacing: 2px;
+    }
+
+    .about-heading span {
+      color: #696969;
+    }
+
+    .about-copy {
+      padding-left: 40px;
+      border-left: 1px solid #333;
+    }
+
+    .about-copy p {
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .about-copy .lead {
+      color: #b5b5b5;
+      font-size: 20px;
+      line-height: 1.5;
+    }
+
+    .about-stats {
+      margin-top: 90px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid #292929;
+      border-bottom: 1px solid #292929;
+    }
+
+    .stat {
+      padding: 30px 23px;
+      border-right: 1px solid #292929;
+    }
+
+    .stat:last-child {
+      border-right: none;
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 17px;
+      letter-spacing: 2px;
+    }
+
+    .stat span {
+      color: #555;
+      font-size: 8px;
+      letter-spacing: 2px;
+    }
+
+    /* EVENTS */
+
+    .events {
+      padding: 120px 8%;
+      background: #050505;
+    }
+
+    .events-header,
+    .ranks-header {
+      margin-bottom: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+    }
+
+    .events-header p,
+    .ranks-header p {
+      max-width: 330px;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      min-height: 330px;
+      padding: 27px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid #292929;
+      background: linear-gradient(145deg, #121212, #080808);
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #555;
+      background: linear-gradient(145deg, #181818, #090909);
+    }
+
+    .card-big {
+      grid-column: span 2;
+      grid-row: span 2;
+      min-height: 672px;
+      background: radial-gradient(circle at 75% 25%, #292929, #121212 33%, #070707 74%);
+    }
+
+    .card-wide {
+      grid-column: span 2;
+    }
+
+    .card-number {
+      color: #484848;
+      font-size: 8px;
+      letter-spacing: 3px;
+    }
+
+    .card-symbol {
+      position: absolute;
+      right: 23px;
+      top: 17px;
+      color: #2e2e2e;
+      font-size: 45px;
+    }
+
+    .card-big .card-symbol {
+      top: 70px;
+      right: 35px;
+      color: rgba(255,255,255,.05);
+      font-size: 180px;
+    }
+
+    .card-content {
+      margin-top: auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card small {
+      color: #565656;
+      font-size: 7px;
+      letter-spacing: 3px;
+    }
+
+    .card h3 {
+      margin: 10px 0 15px;
+      font-size: 27px;
+      line-height: 1.05;
+      letter-spacing: 2px;
+    }
+
+    .card-big h3 {
+      font-size: clamp(48px, 6vw, 78px);
+    }
+
+    .card p {
+      max-width: 430px;
+      color: #6c6c6c;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .card-bottom {
+      margin-top: 28px;
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      border-top: 1px solid #292929;
+      color: #4c4c4c;
+      font-size: 7px;
+      letter-spacing: 2px;
+    }
+
+    /* RANKS */
+
+    .ranks {
+      padding: 120px 8%;
+      background: #0c0c0c;
+    }
+
+    .rank-tree {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .rank {
+      height: 72px;
+      padding: 0 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid #333;
+      background: #111;
+      transition: .2s;
+    }
+
+    .rank:hover {
+      background: #171717;
+      border-color: #666;
+    }
+
+    .rank-number {
+      width: 25px;
+      color: #555;
+      font-size: 10px;
+    }
+
+    .rank strong {
+      display: block;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .rank small {
+      display: block;
+      margin-top: 4px;
+      color: #525252;
+      font-size: 7px;
+      letter-spacing: 2px;
+    }
+
+    .rank-1 { width: 55%; }
+    .rank-2 { width: 66%; }
+    .rank-3 { width: 77%; }
+    .rank-4 { width: 89%; }
+    .rank-5 { width: 100%; }
+
+    .connector {
+      width: 1px;
+      height: 18px;
+      background: #333;
+    }
+
+    /* JOIN */
+
+    .join {
+      min-height: 620px;
+      padding: 120px 8%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: radial-gradient(circle at 80% 50%, #242424, #0d0d0d 35%, #050505 72%);
+    }
+
+    .join-bg {
+      position: absolute;
+      right: -80px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,.025);
+      font-size: min(18vw,250px);
+      font-weight: 900;
+      letter-spacing: 10px;
+      white-space: nowrap;
+    }
+
+    .join-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .join h2 {
+      margin: 20px 0 25px;
+      font-size: clamp(70px, 10vw, 130px);
+      line-height: .9;
+      letter-spacing: 3px;
+    }
+
+    .join p {
+      max-width: 590px;
+      margin-bottom: 12px;
+      color: #707070;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .join-button {
+      margin-top: 30px;
+      width: min(430px, 100%);
+      min-height: 65px;
+      padding: 0 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ededed;
+      color: #050505;
+      font-size: 11px;
+      letter-spacing: 3px;
+      transition: .25s;
+    }
+
+    .join-button:hover {
+      background: white;
+      transform: translateX(5px);
+    }
+
+    .join-button span {
+      font-size: 24px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 48px 8%;
+      text-align: center;
+      background: #020202;
+      border-top: 1px solid #222;
+    }
+
+    .footer-logo {
+      margin-bottom: 16px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 8px;
+    }
+
+    footer p {
+      color: #3e3e3e;
+      font-size: 8px;
+      line-height: 1.7;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1000px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel {
+        max-width: 600px;
+      }
+
+      .event-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .card-big {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        display: none;
+      }
+
+      header {
+        padding: 0 5%;
+      }
+
+      .hero {
+        min-height: auto;
+        display: block;
+        padding: 125px 6% 90px;
+      }
+
+      .hero h1 {
+        font-size: clamp(50px, 16vw, 85px);
+        white-space: normal;
+        letter-spacing: 3px;
+      }
+
+      .hero h2 {
+        font-size: 23px;
+      }
+
+      .hero-panel {
+        margin-top: 60px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .about,
+      .events,
+      .ranks,
+      .join {
+        padding: 90px 6%;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .about-copy {
+        padding: 35px 0 0;
+        border-left: none;
+        border-top: 1px solid #333;
+      }
+
+      .about-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .events-header,
+      .ranks-header {
+        display: block;
+      }
+
+      .events-header p,
+      .ranks-header p {
+        margin-top: 22px;
+      }
+
+      .event-grid {
+        display: block;
+      }
+
+      .card {
+        min-height: 330px;
+        margin-bottom: 12px;
+      }
+
+      .card-big {
+        min-height: 480px;
+      }
+
+      .rank-1,
+      .rank-2,
+      .rank-3,
+      .rank-4,
+      .rank-5 {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .logo {
+        font-size: 15px;
+        letter-spacing: 3px;
+      }
+
+      .discord-button {
+        margin-left: 10px;
+        padding: 9px 11px;
+      }
+
+      .hero-panel {
+        display: none;
+      }
+
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .stat {
+        border-right: none;
+        border-bottom: 1px solid #292929;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- =====================================================
-       NAVBAR
-  ====================================================== -->
+<header>
+  <a href="#home" class="logo">SP<span>Ξ</span>CTR<span>Ξ</span></a>
 
-  <header class="navbar">
+  <nav>
+    <a href="#about">ABOUT</a>
+    <a href="#events">EVENTS</a>
+    <a href="#ranks">RANKS</a>
+    <a href="#join">JOIN</a>
+  </nav>
 
-    <a class="brand" href="#home">
+  <a
+    href="https://discord.gg/DUecgNbHYR"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="discord-button"
+  >
+    DISCORD
+  </a>
+</header>
+
+
+<section class="hero" id="home">
+
+  <div class="hero-left">
+
+    <div class="overline">
+      ARCANE ODYSSEY // SPΞCTRΞ
+    </div>
+
+    <h1>
       SP<span>Ξ</span>CTR<span>Ξ</span>
-    </a>
-
-    <nav class="nav-links">
-      <a href="#about">ABOUT</a>
-      <a href="#operations">EVENTS</a>
-      <a href="#ranks">RANKS</a>
-      <a href="#join">JOIN</a>
-    </nav>
-
-    <a
-      class="nav-button"
-      href="https://discord.gg/DUecgNbHYR"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      ENLIST
-    </a>
-
-  </header>
-
-
-  <!-- =====================================================
-       HERO
-  ====================================================== -->
-
-  <section class="hero" id="home">
-
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-
-    <div class="hero-left">
-
-      <div class="hero-tag">
-        ARCANE ODYSSEY // SPΞCTRΞ
-      </div>
-
-      <h1>
-        SP<span>Ξ</span>CTR<span>Ξ</span>
-      </h1>
-
-      <h2>
-        STAY OUT OF TROUBLE.<br>
-        UNLESS TROUBLE FINDS US.
-      </h2>
-
-      <p>
-        SPΞCTRΞ is a covert vigilante guild in Arcane Odyssey built around
-        playing together, running events, helping each other progress, and
-        fighting when there’s actually a reason to.
-      </p>
-
-      <div class="hero-actions">
-
-        <a class="btn primary" href="#operations">
-          SEE WHAT WE DO
-        </a>
-
-        <a
-          class="btn secondary"
-          href="https://discord.gg/DUecgNbHYR"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          JOIN SPΞCTRΞ
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <!-- RIGHT SIDE VISUAL -->
-
-    <div class="hero-panel">
-
-      <div class="panel-top">
-        <span>SPΞCTRΞ NETWORK</span>
-        <span class="status-dot">● ONLINE</span>
-      </div>
-
-      <div class="radar">
-
-        <div class="radar-ring ring-1"></div>
-        <div class="radar-ring ring-2"></div>
-        <div class="radar-ring ring-3"></div>
-
-        <div class="radar-line horizontal"></div>
-        <div class="radar-line vertical"></div>
-
-        <div class="radar-center">Ξ</div>
-
-        <span class="blip blip-1"></span>
-        <span class="blip blip-2"></span>
-        <span class="blip blip-3"></span>
-
-      </div>
-
-      <div class="panel-stats">
-
-        <div>
-          <small>GAME</small>
-          <strong>ARCANE ODYSSEY</strong>
-        </div>
-
-        <div>
-          <small>STYLE</small>
-          <strong>VIGILANTE</strong>
-        </div>
-
-        <div>
-          <small>STATUS</small>
-          <strong>ACTIVE</strong>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       ABOUT
-  ====================================================== -->
-
-  <section class="about" id="about">
-
-    <div class="section-tag">
-      01 // ABOUT
-    </div>
-
-    <div class="about-layout">
-
-      <div class="about-title">
-
-        <p class="small-label">
-          WHO WE ARE
-        </p>
-
-        <h2>
-          A GUILD THAT<br>
-          <span>ACTUALLY DOES STUFF.</span>
-        </h2>
-
-      </div>
-
-      <div class="about-text">
-
-        <p class="lead">
-          SPΞCTRΞ is a group of Arcane Odyssey players who would rather
-          actually play together than sit in a dead guild server.
-        </p>
-
-        <p>
-          We run Dark Sea trips, dragon hunts, reputation campaigns,
-          island claiming, PvP, and whatever else seems fun or worth doing.
-        </p>
-
-        <p>
-          The guild has a covert vigilante theme, but we’re not looking
-          for random fights. Most of the time we’re here to help each other
-          progress, run events, and have a good time.
-        </p>
-
-        <p>
-          If someone starts something with us, though, we’re not exactly
-          going to pretend it didn’t happen.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="info-strip">
-
-      <div class="info-card">
-        <span>01</span>
-        <strong>ACTIVE EVENTS</strong>
-        <small>WE ACTUALLY PLAY</small>
-      </div>
-
-      <div class="info-card">
-        <span>02</span>
-        <strong>TEAM-FOCUSED</strong>
-        <small>NOT SOLO GRINDING</small>
-      </div>
-
-      <div class="info-card">
-        <span>03</span>
-        <strong>VIGILANTE</strong>
-        <small>OUR GUILD THEME</small>
-      </div>
-
-      <div class="info-card">
-        <span>04</span>
-        <strong>WAR READY</strong>
-        <small>IF NEEDED</small>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       OPERATIONS / EVENTS
-  ====================================================== -->
-
-  <section class="operations" id="operations">
-
-    <div class="section-heading">
-
-      <div>
-        <div class="section-tag">
-          02 // EVENTS
-        </div>
-
-        <h2>
-          WHAT WE DO
-        </h2>
-      </div>
-
-      <p>
-        Some of the stuff we regularly organize as a guild.
-      </p>
-
-    </div>
-
-
-    <div class="event-grid">
-
-
-      <!-- DRAGON HUNTS -->
-
-      <article class="event-card event-large">
-
-        <div class="event-number">
-          EVENT // 01
-        </div>
-
-        <div class="big-watermark">
-          ◇
-        </div>
-
-        <div class="event-content">
-
-          <small>
-            GROUP COMBAT
-          </small>
-
-          <h3>
-            DRAGON<br>
-            HUNTS
-          </h3>
-
-          <p>
-            Get a group together, find dragons, kill dragons.
-            Pretty straightforward.
-          </p>
-
-        </div>
-
-        <div class="event-footer">
-          <span>COMBAT</span>
-          <span>REGULAR EVENT</span>
-        </div>
-
-      </article>
-
-
-      <!-- DARK SEA -->
-
-      <article class="event-card">
-
-        <div class="event-number">
-          EVENT // 02
-        </div>
-
-        <div class="event-icon">
-          ≈
-        </div>
-
-        <div class="event-content">
-
-          <small>
-            EXPEDITION
-          </small>
-
-          <h3>
-            DARK SEA
-          </h3>
-
-          <p>
-            Group trips into the Dark Sea for loot, exploration,
-            insanity, and hopefully getting everyone back alive.
-          </p>
-
-        </div>
-
-        <div class="event-footer">
-          <span>EXPLORATION</span>
-          <span>ACTIVE</span>
-        </div>
-
-      </article>
-
-
-      <!-- REPUTATION -->
-
-      <article class="event-card">
-
-        <div class="event-number">
-          EVENT // 03
-        </div>
-
-        <div class="event-icon">
-          ▲
-        </div>
-
-        <div class="event-content">
-
-          <small>
-            PROGRESSION
-          </small>
-
-          <h3>
-            REPUTATION
-          </h3>
-
-          <p>
-            Guild sessions where we grind reputation together
-            instead of everyone doing it alone.
-          </p>
-
-        </div>
-
-        <div class="event-footer">
-          <span>GRINDING</span>
-          <span>ACTIVE</span>
-        </div>
-
-      </article>
-
-
-      <!-- ISLAND CLAIMING -->
-
-      <article class="event-card">
-
-        <div class="event-number">
-          EVENT // 04
-        </div>
-
-        <div class="event-icon">
-          ⬡
-        </div>
-
-        <div class="event-content">
-
-          <small>
-            TERRITORY
-          </small>
-
-          <h3>
-            ISLAND<br>
-            CLAIMING
-          </h3>
-
-          <p>
-            Claiming islands, defending them, and occasionally
-            fighting over them when someone else has the same idea.
-          </p>
-
-        </div>
-
-        <div class="event-footer">
-          <span>TERRITORY</span>
-          <span>ACTIVE</span>
-        </div>
-
-      </article>
-
-
-      <!-- GUILD WARS -->
-
-      <article class="event-card event-wide">
-
-        <div class="event-number">
-          EVENT // 05
-        </div>
-
-        <div class="war-layout">
-
-          <div>
-
-            <small>
-              WHEN NEEDED
-            </small>
-
-            <h3>
-              GUILD<br>
-              WARS
-            </h3>
-
-          </div>
-
-          <p>
-            We’re mainly here to have a good time, but if another guild
-            starts something with us, we can organize, fight back, and
-            defend our members.
-          </p>
-
-        </div>
-
-        <div class="event-footer">
-          <span>PVP</span>
-          <span>NOT RANDOMLY STARTED</span>
-        </div>
-
-      </article>
-
-
-      <!-- RANDOM EVENTS -->
-
-      <article class="event-card event-wide alt-wide">
-
-        <div class="event-number">
-          EVENT // 06
-        </div>
-
-        <div class="war-layout">
-
-          <div>
-
-            <small>
-              WHATEVER SOUNDS FUN
-            </small>
-
-            <h3>
-              OTHER<br>
-              EVENTS
-            </h3>
-
-          </div>
-
-          <p>
-            PvP nights, bosses, helping newer members, grinding sessions,
-            spontaneous group runs, and pretty much anything else people
-            actually want to do.
-          </p>
-
-        </div>
-
-        <div class="event-footer">
-          <span>VARIES</span>
-          <span>COMMUNITY EVENTS</span>
-        </div>
-
-      </article>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       RANKS
-  ====================================================== -->
-
-  <section class="ranks" id="ranks">
-
-    <div class="section-heading">
-
-      <div>
-
-        <div class="section-tag">
-          03 // RANKS
-        </div>
-
-        <h2>
-          GUILD RANKS
-        </h2>
-
-      </div>
-
-      <p>
-        Higher rank means more trust and responsibility.
-        That’s basically it.
-      </p>
-
-    </div>
-
-
-    <div class="rank-layout">
-
-
-      <!-- PYRAMID -->
-
-      <div class="rank-tree">
-
-        <div class="rank-box rank-1">
-          <span>I</span>
-
-          <div>
-            <strong>FIELD COMMANDER</strong>
-            <small>GUILD LEADER</small>
-          </div>
-        </div>
-
-        <div class="connector"></div>
-
-        <div class="rank-box rank-2">
-          <span>II</span>
-
-          <div>
-            <strong>VICE FIELD COMMANDER</strong>
-            <small>SECOND-IN-COMMAND</small>
-          </div>
-        </div>
-
-        <div class="connector"></div>
-
-        <div class="rank-box rank-3">
-          <span>III</span>
-
-          <div>
-            <strong>FIELD AGENT</strong>
-            <small>TRUSTED MEMBER / LEADERSHIP</small>
-          </div>
-        </div>
-
-        <div class="connector"></div>
-
-        <div class="rank-box rank-4">
-          <span>IV</span>
-
-          <div>
-            <strong>OPERATIVE</strong>
-            <small>FULL MEMBER</small>
-          </div>
-        </div>
-
-        <div class="connector"></div>
-
-        <div class="rank-box rank-5">
-          <span>V</span>
-
-          <div>
-            <strong>INITIATE</strong>
-            <small>NEW MEMBER</small>
-          </div>
-        </div>
-
-      </div>
-
-
-      <!-- SIDE PANEL -->
-
-      <div class="rank-panel">
-
-        <div class="rank-panel-top">
-          HOW RANKS WORK
-        </div>
-
-        <div class="rank-panel-body">
-
-          <div class="rank-symbol">
-            Ξ
-          </div>
-
-          <h3>
-            YOU DON'T HAVE TO<br>
-            SWEAT FOR A TITLE.
-          </h3>
-
-          <p>
-            Promotions are mostly based on activity, trust, helping out,
-            joining events, and whether people can actually rely on you.
-          </p>
-
-          <p>
-            You don’t need to be the best PvP player in the game to move up.
-            Just be useful, active, and not annoying.
-          </p>
-
-        </div>
-
-        <div class="rank-panel-bottom">
-
-          <div>
-            <small>RANKS</small>
-            <strong>5</strong>
-          </div>
-
-          <div>
-            <small>ENTRY RANK</small>
-            <strong>INITIATE</strong>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       JOIN SECTION
-  ====================================================== -->
-
-  <section class="join" id="join">
-
-    <div class="join-bg-text">
-      SPΞCTRΞ
-    </div>
-
-    <div class="join-content">
-
-      <div class="section-tag">
-        04 // RECRUITMENT
-      </div>
-
-      <h2>
-        WANT IN?
-      </h2>
-
-      <p>
-        We’re looking for active Arcane Odyssey players who want a guild
-        that actually runs events and plays together.
-      </p>
-
-      <p>
-        You don’t need to be some insane PvP player.
-        Just be active, chill, and willing to join in.
-      </p>
-
-
-      <div class="join-tags">
-
-        <span>ACTIVE</span>
-        <span>CHILL</span>
-        <span>TEAM PLAYER</span>
-        <span>PLAYS AO</span>
-
-      </div>
-
-
-      <a
-        class="join-button"
-        href="https://discord.gg/DUecgNbHYR"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        JOIN THE DISCORD
-        <span>→</span>
+    </h1>
+
+    <h2>
+      KEEP THE PEACE.<br>
+      BE READY WHEN IT BREAKS.
+    </h2>
+
+    <p>
+      SPΞCTRΞ is an Arcane Odyssey guild focused on organized events,
+      progression, exploration, and coordinated PvP. We keep things
+      relaxed, but when the guild needs to move together, we do.
+    </p>
+
+    <div class="hero-buttons">
+
+      <a href="#events" class="button button-primary">
+        VIEW EVENTS
       </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
-
-  <footer>
-
-    <div class="footer-brand">
-      SPΞCTRΞ
-    </div>
-
-    <div class="footer-links">
-      <a href="#about">ABOUT</a>
-      <a href="#operations">EVENTS</a>
-      <a href="#ranks">RANKS</a>
 
       <a
         href="https://discord.gg/DUecgNbHYR"
         target="_blank"
         rel="noopener noreferrer"
+        class="button button-secondary"
       >
-        DISCORD
+        JOIN SPΞCTRΞ
       </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="hero-panel">
+
+    <div class="panel-top">
+      <span>SPΞCTRΞ NETWORK</span>
+      <span>● ONLINE</span>
+    </div>
+
+    <div class="radar">
+
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+
+      <div class="line-x"></div>
+      <div class="line-y"></div>
+
+      <div class="radar-center">
+        Ξ
+      </div>
+
+      <span class="blip blip-1"></span>
+      <span class="blip blip-2"></span>
+      <span class="blip blip-3"></span>
+
+    </div>
+
+    <div class="panel-stats">
+
+      <div>
+        <small>GAME</small>
+        <strong>ARCANE ODYSSEY</strong>
+      </div>
+
+      <div>
+        <small>FOCUS</small>
+        <strong>GUILD EVENTS</strong>
+      </div>
+
+      <div>
+        <small>STATUS</small>
+        <strong>ACTIVE</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="about" id="about">
+
+  <div class="section-label">
+    01 // ABOUT
+  </div>
+
+  <div class="about-grid">
+
+    <div class="about-heading">
+
+      <h2>
+        BUILT AROUND<br>
+        <span>ACTIVITY.</span>
+      </h2>
+
+    </div>
+
+    <div class="about-copy">
+
+      <p class="lead">
+        SPΞCTRΞ is for players who want an active guild with people
+        they can actually play with.
+      </p>
+
+      <p>
+        We organize Dark Sea expeditions, dragon hunts, reputation
+        campaigns, island claiming, PvP sessions, and other group events.
+      </p>
+
+      <p>
+        The guild has a vigilante identity, but we are not built around
+        starting unnecessary conflicts. Most of the time, the goal is
+        progression, events, and helping members improve.
+      </p>
+
+      <p>
+        When conflict does happen, we prefer to handle it as a group
+        rather than leaving members to deal with it alone.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="about-stats">
+
+    <div class="stat">
+      <strong>ACTIVE</strong>
+      <span>REGULAR EVENTS</span>
+    </div>
+
+    <div class="stat">
+      <strong>COORDINATED</strong>
+      <span>GROUP PLAY</span>
+    </div>
+
+    <div class="stat">
+      <strong>VIGILANTE</strong>
+      <span>GUILD IDENTITY</span>
+    </div>
+
+    <div class="stat">
+      <strong>PREPARED</strong>
+      <span>WHEN NEEDED</span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="events" id="events">
+
+  <div class="events-header">
+
+    <div>
+
+      <div class="section-label">
+        02 // EVENTS
+      </div>
+
+      <h2 class="section-title">
+        WHAT WE DO
+      </h2>
+
     </div>
 
     <p>
-      SPΞCTRΞ is a player-created Arcane Odyssey guild and is not affiliated
-      with Roblox or the developers of Arcane Odyssey.
+      Most of SPΞCTRΞ revolves around organized guild activity.
+      These are the main events we run.
     </p>
 
-  </footer>
+  </div>
+
+
+  <div class="event-grid">
+
+    <article class="card card-big">
+
+      <span class="card-number">
+        EVENT // 01
+      </span>
+
+      <div class="card-symbol">
+        ◇
+      </div>
+
+      <div class="card-content">
+
+        <small>GROUP COMBAT</small>
+
+        <h3>
+          DRAGON<br>
+          HUNTS
+        </h3>
+
+        <p>
+          Coordinated dragon hunts with guild members for progression,
+          rewards, and group combat.
+        </p>
+
+      </div>
+
+      <div class="card-bottom">
+        <span>COMBAT</span>
+        <span>GROUP EVENT</span>
+      </div>
+
+    </article>
+
+
+    <article class="card">
+
+      <span class="card-number">
+        EVENT // 02
+      </span>
+
+      <div class="card-symbol">
+        ≈
+      </div>
+
+      <div class="card-content">
+
+        <small>EXPEDITION</small>
+
+        <h3>
+          DARK SEA
+        </h3>
+
+        <p>
+          Group expeditions into the Dark Sea for loot, exploration,
+          progression, and the challenge of getting everyone back safely.
+        </p>
+
+      </div>
+
+      <div class="card-bottom">
+        <span>EXPLORATION</span>
+        <span>ACTIVE</span>
+      </div>
+
+    </article>
+
+
+    <article class="card">
+
+      <span class="card-number">
+        EVENT // 03
+      </span>
+
+      <div class="card-symbol">
+        ▲
+      </div>
+
+      <div class="card-content">
+
+        <small>PROGRESSION</small>
+
+        <h3>
+          REPUTATION
+        </h3>
+
+        <p>
+          Organized reputation grinding for members who want to progress
+          more efficiently alongside the guild.
+        </p>
+
+      </div>
+
+      <div class="card-bottom">
+        <span>PROGRESSION</span>
+        <span>ACTIVE</span>
+      </div>
+
+    </article>
+
+
+    <article class="card">
+
+      <span class="card-number">
+        EVENT // 04
+      </span>
+
+      <div class="card-symbol">
+        ⬡
+      </div>
+
+      <div class="card-content">
+
+        <small>TERRITORY</small>
+
+        <h3>
+          ISLAND<br>
+          CLAIMING
+        </h3>
+
+        <p>
+          Claiming and holding islands as a group while supporting members
+          during contested territory.
+        </p>
+
+      </div>
+
+      <div class="card-bottom">
+        <span>TERRITORY</span>
+        <span>ACTIVE</span>
+      </div>
+
+    </article>
+
+
+    <article class="card card-wide">
+
+      <span class="card-number">
+        EVENT // 05
+      </span>
+
+      <div class="card-symbol">
+        +
+      </div>
+
+      <div class="card-content">
+
+        <small>COMMUNITY</small>
+
+        <h3>
+          OTHER EVENTS
+        </h3>
+
+        <p>
+          PvP sessions, boss fights, grinding, member assistance,
+          and other activities based on what people want to run.
+        </p>
+
+      </div>
+
+      <div class="card-bottom">
+        <span>COMMUNITY</span>
+        <span>VARIES</span>
+      </div>
+
+    </article>
+
+  </div>
+
+</section>
+
+
+<section class="ranks" id="ranks">
+
+  <div class="ranks-header">
+
+    <div>
+
+      <div class="section-label">
+        03 // RANKS
+      </div>
+
+      <h2 class="section-title">
+        GUILD RANKS
+      </h2>
+
+    </div>
+
+    <p>
+      Ranks reflect activity, trust, and responsibility within the guild.
+    </p>
+
+  </div>
+
+
+  <div class="rank-tree">
+
+    <div class="rank rank-1">
+
+      <span class="rank-number">
+        I
+      </span>
+
+      <div>
+        <strong>FIELD COMMANDER</strong>
+        <small>GUILD LEADER</small>
+      </div>
+
+    </div>
+
+    <div class="connector"></div>
+
+
+    <div class="rank rank-2">
+
+      <span class="rank-number">
+        II
+      </span>
+
+      <div>
+        <strong>VICE FIELD COMMANDER</strong>
+        <small>SECOND-IN-COMMAND</small>
+      </div>
+
+    </div>
+
+    <div class="connector"></div>
+
+
+    <div class="rank rank-3">
+
+      <span class="rank-number">
+        III
+      </span>
+
+      <div>
+        <strong>FIELD AGENT</strong>
+        <small>TRUSTED MEMBER</small>
+      </div>
+
+    </div>
+
+    <div class="connector"></div>
+
+
+    <div class="rank rank-4">
+
+      <span class="rank-number">
+        IV
+      </span>
+
+      <div>
+        <strong>OPERATIVE</strong>
+        <small>FULL MEMBER</small>
+      </div>
+
+    </div>
+
+    <div class="connector"></div>
+
+
+    <div class="rank rank-5">
+
+      <span class="rank-number">
+        V
+      </span>
+
+      <div>
+        <strong>INITIATE</strong>
+        <small>NEW MEMBER</small>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="join" id="join">
+
+  <div class="join-bg">
+    SPΞCTRΞ
+  </div>
+
+  <div class="join-content">
+
+    <div class="section-label">
+      04 // JOIN
+    </div>
+
+    <h2>
+      JOIN SPΞCTRΞ
+    </h2>
+
+    <p>
+      We are looking for active Arcane Odyssey players who want to take
+      part in guild events, progression, exploration, and group PvP.
+    </p>
+
+    <p>
+      Skill matters less than activity, reliability, and being willing
+      to work with the rest of the guild.
+    </p>
+
+    <a
+      href="https://discord.gg/DUecgNbHYR"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="join-button"
+    >
+      JOIN THE DISCORD
+      <span>→</span>
+    </a>
+
+  </div>
+
+</section>
+
+
+<footer>
+
+  <div class="footer-logo">
+    SPΞCTRΞ
+  </div>
+
+  <p>
+    Player-created Arcane Odyssey guild.
+    Not affiliated with Roblox or the developers of Arcane Odyssey.
+  </p>
+
+</footer>
 
 </body>
 </html>
